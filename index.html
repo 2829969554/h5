@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>概率测试</title>
+    <style>
+        p{
+            margin: 0 auto;
+        }
+        button{
+            margin:20px;
+            font-size:22px;
+            width:68px;
+            height :30px;
+            background-color:white;
+            
+        }
+        body{
+            margin: 0 auto;
+            margin-top: -20px;
+            text-align:center;
+             width:100%;
+            font-size:auto;
+            
+        }
+        div{
+            width: 360px; 
+            height: 300px; 
+            overflow: auto;
+            text-align: center;
+            margin: 0 auto;
+        }
+        thead{
+            position: sticky;
+            top: 0;
+        }
+        table{
+            text-align: center;
+            width: 85%;
+            margin: 0 auto;
+        }
+        tr th{
+             width:65px;
+              text-align:center;
+             
+        }
+
+        strong b{
+            color: red;
+            font-size: 22px;
+        }
+    
+    </style>
+
+    <script type="text/javascript">
+    //当前游戏关卡
+    var gameid=1;
+    //当前点击次数
+    var dqxx=0;
+    //点击总次数
+    var djcs=0;
+    //当前心里预选
+    var xinx=0;
+    /*正确答案*/
+    var zqda=parseInt(Math.random()*3+1);
+    /*单回合错误次数，最大2*/
+    var cwcs=0;
+    /*总错误次数*/
+    var zzqcs=0;
+    var zcwcs=0;
+
+        function xinyx(obj){
+            //console.log(xinx);
+            //心内猜初选
+            if(xinx==0){
+                xinx+=1;
+                obj.style='border: 1px solid red;';
+
+                //主持人去掉一个错误答案
+                switch(dqxx){
+                case 1:
+                    document.getElementById('gametishi').innerHTML='2.你首次选了1号';
+                    if(zqda==1){
+                        if(parseInt(Math.random())==0){
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除2号，你是否<b>换门</b>？';
+                            document.getElementById('anniu2').click();
+                        }else{
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除3号，你是否<b>换门</b>？';
+                            document.getElementById('anniu3').click();
+                        }
+                    }else{
+                        if(zqda==2){
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除3号，你是否<b>换门</b>？';
+                            document.getElementById('anniu3').click();
+                        }else{
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除2号，你是否<b>换门</b>？';
+                            document.getElementById('anniu2').click();
+                        }
+                    }
+                    
+                break;
+                case 2:
+                    document.getElementById('gametishi').innerHTML='2.你首次选了2号';
+                    if(zqda==2){
+                        if(parseInt(Math.random())==0){
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除4号，你是否<b>换门</b>？';
+                            document.getElementById('anniu1').click();
+                        }else{
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除3号，你是否<b>换门</b>？';
+                            document.getElementById('anniu3').click();
+                        }
+                    }else{
+                        if(zqda==1){
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除3号，你是否<b>换门</b>？';
+                            document.getElementById('anniu3').click();
+                        }else{
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除1号，你是否<b>换门</b>？';
+                            document.getElementById('anniu1').click();
+                        }
+                    }
+                break;
+                case 3:
+                    document.getElementById('gametishi').innerHTML='2.你首次选了3号';
+                    if(zqda==3){
+                        if(parseInt(Math.random())==0){
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除1号，你是否<b>换门</b>？';
+                            document.getElementById('anniu1').click();
+                        }else{
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除2号，你是否<b>换门</b>？';
+                            document.getElementById('anniu2').click();
+                        }
+                    }else{
+                        if(zqda==1){
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除2号，你是否<b>换门</b>？';
+                            document.getElementById('anniu2').click();
+                        }else{
+                            document.getElementById('gametishi').innerHTML+='<br>主持人为你排除1号，你是否<b>换门</b>？';
+                            document.getElementById('anniu1').click();
+                        }
+                    }
+                break;
+                default:
+                    window.reload();
+                break;
+                }
+                document.getElementById('gametishi').innerHTML+='<br>请选择你的最终答案!';
+
+
+                return false;
+            }
+            if(xinx==1){
+                //去掉一个错误答案
+                xinx+=1;
+                return true;
+            }
+            if(xinx==2){
+                //确认选项
+                xinx=0;
+                
+                return true;
+            }
+            
+        }
+        function waixz(uid,obj){
+            
+            djcs=djcs+1;
+            dqxx=uid;
+            if(xinyx(obj)==false){
+                //cwcs+=1;
+                return;
+            }
+            if(dqxx==1){
+                if(zqda==1){
+                    
+                    document.getElementById('xxcs'+gameid+'1').innerHTML="♥️";
+                    zzqcs+=1;
+                    cwcs=0;
+                    document.getElementById('xxcs'+gameid+'4').innerHTML="🟢";
+                    nextgame();
+                }else{
+                    document.getElementById('xxcs'+gameid+'1').innerHTML="🖤";
+                    cwcs+=1;
+                    
+                    document.getElementById('anniu1').disabled='disabled';
+                }
+                
+                
+            }
+        if(dqxx==2){
+                   if(zqda==2){
+                       
+                    document.getElementById('xxcs'+gameid+'2').innerHTML="♥️";
+                    zzqcs+=1;
+                    cwcs=0;
+    document.getElementById('xxcs'+gameid+'4').innerHTML="🟢";
+    nextgame();
+                    
+                }else{
+                    document.getElementById('xxcs'+gameid+'2').innerHTML="🖤";
+                    cwcs+=1;
+                    document.getElementById('anniu2').disabled='disabled';
+                } }
+            
+        if(dqxx==3){
+           if(zqda==3){
+               
+                    document.getElementById('xxcs'+gameid+'3').innerHTML="♥️";
+                    zzqcs+=1;
+                    
+                    cwcs=0;
+            document.getElementById('xxcs'+gameid+'4').innerHTML="🟢";
+            nextgame();
+                    
+                }else{
+                    document.getElementById('xxcs'+gameid+'3').innerHTML="🖤";
+              cwcs+=1;      
+        document.getElementById('anniu3').disabled='disabled';            
+                }
+            }   
+            if(djcs%2==0){
+              
+              if(cwcs==99){
+                  cwcs=0;
+                  document.getElementById('xxcs'+gameid+'4').innerHTML="⚫";
+              nextgame();
+                  
+              }
+            }
+            
+        }
+        function ongame()
+        {
+            document.getElementById('zzqcs').innerHTML=zzqcs;
+            document.getElementById('zcwcs').innerHTML=zcwcs;
+            document.getElementById('gameid').innerHTML=gameid;
+            document.getElementById('djcsa').innerHTML=djcs;
+      document.getElementById('xzzqgl').innerHTML=(zzqcs/djcs)?zzqcs/djcs:0;    
+       document.getElementById('jgzqgl').innerHTML=zzqcs/gameid;    
+      
+            if(dqxx!=0){
+                //alert(dqxx);
+                dqxx=0;
+            }
+           if(cwcs==2){
+                  cwcs=0;
+                  zcwcs+=1;
+                  document.getElementById('xxcs'+gameid+'4').innerHTML="⚫";
+              nextgame();
+                  
+              }
+            
+        }
+        
+        function nextgame(){
+            
+            document.getElementById('gametishi').innerHTML='1.请先选一个想要的';
+            cwcs=0;
+             zqda=parseInt(Math.random()*3+1);
+   document.getElementById('anniu1').disabled='';  
+   document.getElementById('anniu2').disabled='';
+   document.getElementById('anniu3').disabled='';
+   document.getElementById('anniu1').style.border='';
+   document.getElementById('anniu2').style.border='';
+   document.getElementById('anniu3').style.border='';
+                gameid+=1;
+                document.getElementById('tbtext').innerHTML='<tr> <td>'+gameid+'</td><td id="xxcs'+gameid+'1"> </td> <td id="xxcs'+gameid+'2"> </td><td id="xxcs'+gameid+'3"></td><td id="xxcs'+gameid+'4"></td> </tr>'+ document.getElementById('tbtext').innerHTML;
+        }
+        
+        setInterval(ongame,100);
+    </script>
+    </head>
+    
+    <body>
+        <h1 title="  在某活动的抽奖环节中有三扇门,
+其中一扇门的后面是一辆汽车,
+另两扇门的后面各有一只羊，
+你只能猜一次，
+猜中羊则可迁走羊，猜中汽车则可开走汽车，
+当然大家都希望能开走汽车。
+现在你心里猜了某扇门的后面是车之后,
+主持人将其他两扇门（错误）任意打开一个。
+（此操作将会为你排除一个错误答案）
+此时请问:
+1.你是要坚定信念不换门还是换另一扇门? 
+来统计一下概率吧" onclick="alert(this.title)";>游戏规则🔍</h1>
+  <div style="height:auto;">    
+<p>
+    关卡：<b id="gameid">0</b>
+    次数：<b id="djcsa">0</b>
+    正确：<b id="zzqcs">0</b>
+    错误：<b id="zcwcs">0</b>
+    </p>
+    
+    <p style="text-align: left;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp不换概率：<b id="xzzqgl">0</b></p>
+    
+    <p style="text-align: left;">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp换门概率：<b id="jgzqgl">0</b></p>
+</div>  
+<p style="min-height: 70px;"><strong style="color: green;" id="gametishi">1.请先选一个想要的</strong></p>
+        <button id="anniu1" onclick="waixz(1,this);">1</button>
+        <button id="anniu2" onclick="waixz(2,this);">2</button>
+        <button id="anniu3" onclick="waixz(3,this);">3</button>
+    <div>
+     <table border="1" cellspacing="0" cellpadding="0" >
+         <theah>
+             <tr>
+                 <th>
+                     序号
+                 </th>
+                 <th>
+                     一号
+                 </th> 
+                  <th>
+                     二号
+                 </th>
+                 <th>
+                     三号
+                 </th>
+                 <th>
+                     结果
+                 </th>
+             </tr>
+         </theah>
+         <tbody id="tbtext">
+             
+             
+         </tbody>
+         
+     </table>   
+       </div> 
+
+       <div style="float: left;text-align: left;">
+          <p>♥️:代表正确答案</p>
+          <p>🖤:代表错误答案</p>
+          <p>🟢:代表最终答对了</p>  
+          <p>⚫:代表最终答错了</p>  
+       </div>
+       
+
+    </body>
+
+
+    
+    <script>
+        document.getElementById('tbtext').innerHTML+='<tr><td>'+gameid+'</td><td id="xxcs'+gameid+'1"> </td> <td id="xxcs'+gameid+'2"> </td><td id="xxcs'+gameid+'3"></td><td id="xxcs'+gameid+'4"></td></tr>';
+    </script>
+</html>
